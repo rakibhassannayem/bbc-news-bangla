@@ -48,12 +48,13 @@
     </header>
     <main class="max-w-7xl mx-auto px-3 grid grid-cols-4 gap-3 my-3">
       <div id="news-container" class="grid grid-cols-1 md:grid-cols-3 gap-3 col-span-3">
-
+        <span class="col-span-full loading loading-ring loading-xl text-red-700 mt-20  p-40 mx-auto"></span>
       </div>
       
       <div class="border col-span-1 rounded-lg border-gray-200 shadow-sm p-2">
-        <div class="bg-red-700 text-center p-3 rounded-t-lg">
-          <h1 class=" text-white text-xl font-bold">Bookmark <i class="fa-regular fa-bookmark"></i></i></h1>
+        <div class="bg-red-700 text-center p-3 rounded-t-lg text-white text-lg font-bold flex justify-between">
+          <h1 class=""><i class="fa-regular fa-bookmark"></i> Bookmarks</h1>
+          <p id="bm-counts">0</p>
         </div>
 
         <div id="bookmark-container">
