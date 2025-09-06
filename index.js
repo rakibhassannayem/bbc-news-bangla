@@ -3,6 +3,8 @@ const newsContainer = document.getElementById("news-container");
 const bookmarkContainer = document.getElementById("bookmark-container");
 let bookmarks = [];
 const bmCounts = document.getElementById("bm-counts");
+const modalContainer = document.getElementById("modal-container");
+const newsDetailsModal = document.getElementById("news_details_modal");
 
 const loadCategory = () => {
   fetch("https://news-api-fs.vercel.app/api/categories")
@@ -48,6 +50,10 @@ const loadNewsByCategory = (categoryId) => {
 };
 
 const displayNewsByCategory = (articles) => {
+  if (articles.length === 0) {
+    displayEmpty();
+    return;
+  }
   newsContainer.innerHTML = "";
   articles.forEach((article) => {
     newsContainer.innerHTML += `
@@ -55,7 +61,10 @@ const displayNewsByCategory = (articles) => {
       <img class="rounded-md" src="${article.image.srcset[7].url}">
       <h1 class="font-bold">${article.title}</h1>
       <p class="font-medium text-gray-600">${article.time}</p>
-      <button id="btn-bookmark" class="btn text-red-700  w-fit font-bold border-red-700">Bookmark</button>
+      <div class="flex justify-between mt-2">
+        <button id="btn-details" class="btn text-red-700 font-bold border-red-700">View Details</button>
+        <button id="btn-bookmark" class="btn text-red-700 font-bold border-red-700">Bookmark</button>
+      </div>
     </div>
       `;
   });
@@ -65,11 +74,14 @@ newsContainer.addEventListener("click", (e) => {
   if (e.target.innerText === "Bookmark") {
     handleBookmarks(e);
   }
+  if (e.target.innerText === "View Details") {
+    handleViewDetails(e);
+  }
 });
 
 const handleBookmarks = (e) => {
-  const title = e.target.parentNode.children[1].innerText;
-  const id = e.target.parentNode.id;
+  const title = e.target.parentNode.parentNode.children[1].innerHTML;
+  const id = e.target.parentNode.parentNode.id;
   bookmarks.push({
     title: title,
     id: id,
@@ -99,6 +111,25 @@ const handleDeleteBookmarks = (bookmarkId) => {
   bmCounts.innerText = bookmarks.length;
 };
 
+const handleViewDetails = (e) => {
+  const id = e.target.parentNode.parentNode.id;
+  fetch(`https://news-api-fs.vercel.app/api/news/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      displayDetails(data.article)
+    })
+    .catch((err) => console.log(err));
+};
+
+const displayDetails = (article) =>{
+  newsDetailsModal.showModal();
+  modalContainer.innerHTML = `
+    <h1 class="font-bold mb-2">${article.title}</h1>
+    <img src="${article.images[0].url}">
+    <p class="mt-2 text-justify">${article.content.join("")}</p>
+  `
+}
+
 const displayLoading = () => {
   newsContainer.innerHTML = `<span class="col-span-full loading loading-ring loading-xl text-red-700 mt-20 p-30 mx-auto"></span>`;
 };
@@ -110,6 +141,17 @@ const displayError = () => {
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       <span>Error! Something went wrong.</span>
+    </div>
+  `;
+};
+
+const displayEmpty = () => {
+  newsContainer.innerHTML = `
+    <div role="alert" class="alert alert-error bg-red-700 text-white text-bold">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>No News Available.</span>
     </div>
   `;
 };

@@ -42,26 +42,44 @@
       </div>
 
       <nav class="max-w-7xl mx-auto px-3">
-        <ul id="category-container" class="flex flex-wrap gap-4 text-xl">
-        </ul>
+        <ul id="category-container" class="flex flex-wrap gap-4 text-xl"></ul>
       </nav>
     </header>
     <main class="max-w-7xl mx-auto px-3 grid grid-cols-4 gap-3 my-3">
-      <div id="news-container" class="grid grid-cols-1 md:grid-cols-3 gap-3 col-span-3">
-        <span class="col-span-full loading loading-ring loading-xl text-red-700 mt-20  p-40 mx-auto"></span>
+      <div
+        id="news-container"
+        class="grid grid-cols-1 md:grid-cols-3 gap-3 col-span-3"
+      >
+        <span
+          class="col-span-full loading loading-ring loading-xl text-red-700 mt-20 p-40 mx-auto"
+        ></span>
       </div>
-      
+
       <div class="border col-span-1 rounded-lg border-gray-200 shadow-sm p-2">
-        <div class="bg-red-700 text-center p-3 rounded-t-lg text-white text-lg font-bold flex justify-between">
+        <div
+          class="bg-red-700 text-center p-3 rounded-t-lg text-white text-lg font-bold flex justify-between"
+        >
           <h1 class=""><i class="fa-regular fa-bookmark"></i> Bookmarks</h1>
           <p id="bm-counts">0</p>
         </div>
 
-        <div id="bookmark-container">
-          
-        </div>
+        <div id="bookmark-container"></div>
       </div>
     </main>
+
+    <!-- Open the modal using ID.showModal() method -->
+    <!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
+    <dialog id="news_details_modal" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <div id="modal-container"></div>
+        <div class="modal-action">
+          <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn bg-red-700 text-white font-bold">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
 
     <script src="./index.js"></script>
   </body>
